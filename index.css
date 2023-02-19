@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #203374;
+  color: white;
+}
+
+h1 {
+  /* color: #6E6E6E; */
+  margin-bottom: 2rem;
+}
+h1,
+h2,
+h3 {
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+
+.container {
+  padding: 1.25rem 2rem;
+}
+
+.information {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.information .information-score {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.25rem;
+}
+
+.information .information-score .information-score--container {
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  align-items: center;
+}
+
+.information .information-score .information-score--container .score-one.lead, 
+.information .information-score .information-score--container .score-two.lead {
+  color: greenyellow;
+}
+
+.information .information-one h2 {
+  color: #FFD400;
+}
+.information .information-two h2 {
+  color: #FF6C6C;
+}
+
+#board {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4rem;
+  border-collapse: collapse;
+}
+
+#board tr td {
+  border: 16px solid #5A5A5A;
+}
+
+#board tr td div button {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+#board tr td div button img {
+  width: calc(100% - 0.5rem);
+  height: calc(100% - 0.5rem);
+  animation-name: example;
+  animation-duration: .3s;
+}
+
+@keyframes example {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem);
+  }
+}
+
+#board tr td:first-child {
+  border-top: 0px;
+  border-left: 0px;
+  border-color: #6E6E6E;
+}
+#board tr td:last-child {
+  border-top: 0px;
+  border-right: 0px;
+}
+
+
+#board tr:first-child td:nth-child(even) {
+  border-top: 0;
+}
+#board tr:last-child td:nth-child(even) {
+  border-bottom: 0;
+}
+
+#board tr:last-child td:first-child,
+#board tr:last-child td:last-child {
+  border-bottom: 0;
+}
