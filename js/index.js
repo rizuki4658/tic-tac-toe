@@ -5,6 +5,10 @@ let boards = [
 ]
 const boardView = document.getElementById('board')
 const buttons = document.createElement('button')
+const scores = {
+  x: 0,
+  o: 0
+}
 let turn = 0
 let winner = null
 let timerClear = undefined
@@ -19,10 +23,9 @@ function boardClick(e) {
   winner = checkingBoard()
 
   if (winner) {
-    // timerClear = setTimeout(() => {
-      winnerModal()
-      // resetBoard()
-    // }, 500)
+    scores[winner.toLocaleLowerCase()] += 1
+    updateScore()
+    winnerModal()
   }
 }
 
@@ -91,6 +94,10 @@ function diagonalCheck(type) {
 }
 
 function createBoard(boards) {
+  const scoreOne = document.getElementById('score_one')
+  const scoreTwo = document.getElementById('score_two')
+  scoreOne.innerText = scores.x
+  scoreTwo.innerText = scores.o
   for (let r = 0; r < boards.length; r++) {
     const row = document.createElement('tr')
     for (let c = 0; c < boards[r].length; c++) {
@@ -120,6 +127,7 @@ function resetBoard() {
     [7, 8, 9]
   ]
   turn = 0
+  winner = undefined
   clearTimeout(timerClear)
 }
 
@@ -132,6 +140,21 @@ function winnerModal() {
     btn_text: 'OKAY!'
   }, resetBoard)
   container.appendChild(myModal)
+}
+
+function updateScore() {
+  const scoreOne = document.getElementById('score_one')
+  const scoreTwo = document.getElementById('score_two')  
+  scoreOne.classList.remove('lead')
+  scoreTwo.classList.remove('lead')
+  scoreOne.innerText = scores.x
+  scoreTwo.innerText = scores.o
+
+  if (scores.x > scores.o && winner === 'X') {
+    scoreOne.classList.add('lead')
+  } else if (scores.x > scores.o && winner === 'O') {
+    scoreTwo.classList.add('lead')
+  }
 }
 
 function load () {
