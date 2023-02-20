@@ -4,8 +4,15 @@ let boards = [
   [7, 8, 9]
 ]
 const boardView = document.getElementById('board')
+const scoreOne = document.getElementById('score_one')
+const scoreTwo = document.getElementById('score_two')
+  
 const buttons = document.createElement('button')
 const scores = {
+  x: 0,
+  o: 0
+}
+const steps = {
   x: 0,
   o: 0
 }
@@ -19,6 +26,12 @@ function boardClick(e) {
   img.setAttribute('src',  turn === 0 ? './img/x.png' : './img/o.png')
   e.target.appendChild(img)
   boards[target[0]][target[1]] = turn === 0 ? 'x' : 'o'
+  steps[turn === 0 ? 'x' : 'o'] += 1
+
+  if (steps.x === 5 || steps.y === 5) {
+    resetBoard()
+    drawModal()
+  }
 
   winner = checkingBoard()
 
@@ -94,8 +107,6 @@ function diagonalCheck(type) {
 }
 
 function createBoard(boards) {
-  const scoreOne = document.getElementById('score_one')
-  const scoreTwo = document.getElementById('score_two')
   scoreOne.innerText = scores.x
   scoreTwo.innerText = scores.o
   for (let r = 0; r < boards.length; r++) {
@@ -127,8 +138,17 @@ function resetBoard() {
     [7, 8, 9]
   ]
   turn = 0
+  steps.x = 0
+  steps.y = 0
   winner = undefined
   clearTimeout(timerClear)
+}
+
+function resetGame() {
+  scores.x = 0
+  scores.o = 0
+  scoreOne.classList.remove('lead')
+  scoreTwo.classList.remove('lead')
 }
 
 function winnerModal() {
@@ -142,9 +162,18 @@ function winnerModal() {
   container.appendChild(myModal)
 }
 
+function drawModal() {
+  const container = document.body
+  const myModal = createModal({
+    title: `Draw For This Round!`,
+    img: 'dx.png',
+    description: 'This round no one get score!',
+    btn_text: 'OKAY!'
+  }, resetBoard)
+  container.appendChild(myModal)
+}
+
 function updateScore() {
-  const scoreOne = document.getElementById('score_one')
-  const scoreTwo = document.getElementById('score_two')  
   scoreOne.classList.remove('lead')
   scoreTwo.classList.remove('lead')
   scoreOne.innerText = scores.x
@@ -152,7 +181,7 @@ function updateScore() {
 
   if (scores.x > scores.o && winner === 'X') {
     scoreOne.classList.add('lead')
-  } else if (scores.x > scores.o && winner === 'O') {
+  } else if (scores.o > scores.x && winner === 'O') {
     scoreTwo.classList.add('lead')
   }
 }
