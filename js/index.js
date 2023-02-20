@@ -19,10 +19,10 @@ function boardClick(e) {
   winner = checkingBoard()
 
   if (winner) {
-    timerClear = setTimeout(() => {
-      alert(`TAI ${winner}`)
-      resetBoard()
-    }, 1000)
+    // timerClear = setTimeout(() => {
+      winnerModal()
+      // resetBoard()
+    // }, 500)
   }
 }
 
@@ -121,6 +121,17 @@ function resetBoard() {
   ]
   turn = 0
   clearTimeout(timerClear)
+}
+
+function winnerModal() {
+  const container = document.body
+  const myModal = createModal({
+    title: `Congratulations You Get Score!`,
+    img: turn === 0 ? 'x.png' : 'o.png',
+    description: 'You are the winner in this round!',
+    btn_text: 'OKAY!'
+  }, resetBoard)
+  container.appendChild(myModal)
 }
 
 function load () {
