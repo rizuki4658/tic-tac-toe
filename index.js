@@ -1,4 +1,4 @@
-const boards = [
+let boards = [
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 9]
@@ -6,7 +6,6 @@ const boards = [
 const boardView = document.getElementById('board')
 const buttons = document.createElement('button')
 let turn = 0
-let field = []
 let winner = null
 let timerClear = undefined
 
@@ -15,7 +14,7 @@ function boardClick(e) {
   const img = document.createElement('img')
   img.setAttribute('src',  turn === 0 ? './img/x.png' : './img/o.png')
   e.target.appendChild(img)
-  field[target[0]][target[1]] = turn === 0 ? 'x' : 'o'
+  boards[target[0]][target[1]] = turn === 0 ? 'x' : 'o'
 
   winner = checkingBoard()
 
@@ -29,8 +28,11 @@ function boardClick(e) {
 
 function checkingBoard() {
   const horizon =  horizonCheck()
-  
-  if (horizon) return turn === 0 ? 'X' : 'O'
+  const diagonalL = diagonalCheck()
+  const diagonalR = diagonalCheck('right')
+  const vertical = verticalCheck()
+
+  if (horizon || diagonalL || diagonalR || vertical) return turn === 0 ? 'X' : 'O'
 
   turn = turn === 0 ? 1 : 0
 
@@ -39,15 +41,53 @@ function checkingBoard() {
 
 function horizonCheck() {
   let result = []
-  for (let i = 0; i < field.length; i++) {
-    const filter = [...field[i]].filter(n => n === (turn === 0 ? 'x' : 'o'))
-    if (filter.length >= field[i].length) {
+  for (let i = 0; i < boards.length; i++) {
+    const filter = [...boards[i]].filter(n => n === (turn === 0 ? 'x' : 'o'))
+    if (filter.length >= boards[i].length) {
       result = filter
       break;
     }
   }
 
   return result.length ? true : false
+}
+
+function verticalCheck() {
+  const columns = boards[0].length
+  let result = false
+  for (let i = 0; i < columns; i++) {
+    let field = []
+    for (let j = 0; j < boards.length; j++) {
+      field.push(boards[j][i])
+    }
+    const filter = [...field].filter(n => n === (turn === 0 ? 'x' : 'o'))
+    if (filter.length === columns) {
+      result = true
+      break
+    }
+  }
+
+  return result
+}
+
+function diagonalCheck(type) {
+  let field = []
+  let count = 0
+  let columns = undefined
+  if (type === 'right') count = boards.length - 1
+
+  for (let i = 0; i < boards.length; i++) {
+    field.push(boards[i][count])
+
+    if (!columns) columns = boards[i].length
+
+    if (type === 'right') {
+      count -= 1
+    } else count += 1
+  }
+  const result = field.filter(n => n === (turn === 0 ? 'x' : 'o'))
+
+  return result.length === columns ? true : false
 }
 
 function createBoard(boards) {
@@ -65,7 +105,6 @@ function createBoard(boards) {
     }
     boardView.appendChild(row)
   }
-  field = boards
 }
 
 function resetBoard() {
@@ -75,14 +114,18 @@ function resetBoard() {
       if (button.firstElementChild) button.removeChild(button.firstElementChild)
     }
   }
-  field = boards
+  boards = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+  ]
   turn = 0
   clearTimeout(timerClear)
 }
 
 function test () {
   createBoard(boards)
-  console.log(field)
+  console.log(boards)
 }
 
 window.onload = test
