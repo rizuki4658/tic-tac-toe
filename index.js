@@ -123,9 +123,8 @@ function resetBoard() {
   clearTimeout(timerClear)
 }
 
-function test () {
+function load () {
   createBoard(boards)
-  console.log(boards)
 }
 
-window.onload = test
+window.onload = load
