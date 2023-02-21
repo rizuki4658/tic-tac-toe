@@ -181,15 +181,18 @@ function drawModal() {
 }
 
 function updateScore() {
-  scoreOne.classList.remove('lead')
-  scoreTwo.classList.remove('lead')
   scoreOne.innerText = scores.x
   scoreTwo.innerText = scores.o
-
+  
   if (scores.x > scores.o && winner === 'X') {
     scoreOne.classList.add('lead')
+    scoreTwo.classList.remove('lead')
   } else if (scores.o > scores.x && winner === 'O') {
     scoreTwo.classList.add('lead')
+    scoreOne.classList.remove('lead')
+  } else {
+    scoreOne.classList.remove('lead')
+    scoreTwo.classList.remove('lead')
   }
 }
 
