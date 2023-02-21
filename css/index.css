@@ -123,6 +123,36 @@ h3 {
 .board-reset-new-game {
   gap: 1rem;
   display: flex;
-  margin-top: 4rem;
-  justify-content: space-between;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  /* justify-content: space-between; */
+}
+
+.button-new-game,
+.button-reset {
+  font-size: 48px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: .5;
+  transition: all .3s ease-in-out;
+}
+.button-new-game:hover {
+  color: #FFD400;
+  opacity: 1;
+}
+.button-reset:hover {
+  color: #FF6C6C;
+  opacity: 1;
+}
+.button-reset {
+  font-size: 40px;
+}
+.button-new-game svg,
+.button-reset svg {
+  width: 1em;
+  height: 1em;
 }

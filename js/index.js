@@ -6,6 +6,8 @@ let boards = [
 const boardView = document.getElementById('board')
 const scoreOne = document.getElementById('score_one')
 const scoreTwo = document.getElementById('score_two')
+const btnNewGame = document.getElementById('new_game')
+const btnResetGame = document.getElementById('reset_game')
   
 const buttons = document.createElement('button')
 const scores = {
@@ -123,6 +125,8 @@ function createBoard(boards) {
     }
     boardView.appendChild(row)
   }
+  btnNewGame.addEventListener('click', resetGame)
+  btnResetGame.addEventListener('click', resetBoard)
 }
 
 function resetBoard() {
@@ -145,6 +149,7 @@ function resetBoard() {
 }
 
 function resetGame() {
+  resetBoard()
   scores.x = 0
   scores.o = 0
   scoreOne.classList.remove('lead')
