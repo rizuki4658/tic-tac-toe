@@ -166,7 +166,7 @@ function drawModal() {
   const container = document.body
   const myModal = createModal({
     title: `Draw For This Round!`,
-    img: 'dx.png',
+    img: 'draw.png',
     description: 'This round no one get score!',
     btn_text: 'OKAY!'
   }, resetBoard)

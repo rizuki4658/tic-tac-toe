@@ -119,3 +119,10 @@ h3 {
 #board tr:last-child td:last-child {
   border-bottom: 0;
 }
+
+.board-reset-new-game {
+  gap: 1rem;
+  display: flex;
+  margin-top: 4rem;
+  justify-content: space-between;
+}
