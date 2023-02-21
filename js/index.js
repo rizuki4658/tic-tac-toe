@@ -152,6 +152,8 @@ function resetGame() {
   resetBoard()
   scores.x = 0
   scores.o = 0
+  scoreOne.innerText = scores.x
+  scoreTwo.innerText = scores.o
   scoreOne.classList.remove('lead')
   scoreTwo.classList.remove('lead')
 }
