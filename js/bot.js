@@ -3,23 +3,27 @@ class Bot {
   vertical;
   horizontal;
   #historyPattern;
+  #chooseByDuplicated
 
   constructor({
     boards
   }) {
     this.boards = boards;
     this.#historyPattern = ['horizontal', 'vertical', 'diagonal']
+    this.#chooseByDuplicated = false
 
     this.newBoard.bind(this)
-    this.splitBoard.bind(this)
+    this.move.bind(this)
+    this.#splitBoard.bind(this)
     this.#horizonGenerate.bind(this)
     this.#diagonalGenerate.bind(this)
     this.#verticalGenerate.bind(this)
+    this.#possiblityBotWin.bind(this)
   }
 
   newBoard(boards) {
     this.boards = boards
-    this.splitBoard()
+    this.#splitBoard()
   }
   #sufflePath(array) {
     let currentIndex = array.length
@@ -65,38 +69,72 @@ class Bot {
   #horizonGenerate() {
     return this.boards
   }
-  splitBoard() {
+  #splitBoard() {
     this.diagonal = this.#diagonalGenerate()
     this.vertical = this.#verticalGenerate()
     this.horizontal = this.#horizonGenerate()
   }
-  playerMoved() {
-    const result = {
-      diagonal: [],
-      vertical: [],
-      horizontal: []
-    }
+  #playerMoved() {
+    let result = {}
     for (let i = 0; i < this.#historyPattern.length; i++) {
-      for (let  j= 0;  j < this[`${this.#historyPattern[i]}`].length; j++) {
-        const filter = [...this[`${this.#historyPattern[i]}`][j]].filter(n => n === 'x')
-        if (filter.length >= 1 &&  filter.length < this[`${this.#historyPattern[i]}`][j].length) {
+      for (let  j= 0;  j < this[this.#historyPattern[i]].length; j++) {
+        const filter = [...this[this.#historyPattern[i]][j]].filter(n => n === 'x')
+        if (filter.length === ([...this[this.#historyPattern[i]][j]].length - 1)) {
           const col = [...this[`${this.#historyPattern[i]}`][j]].findIndex(n => n !== 'x' && n !== 'o')
-          result[this.#historyPattern[i]].push({
+          result = {
             row: j,
-            col
-          })
+            col,
+            type: this.#historyPattern[i]
+          }
+          return result
         }
       }
     }
-    return result
+    return null
   }
-  possiblityBotWin() {
+  #resultBoard(column) {
+    for (let i = 0; i < this.boards.length; i++) {
+      let col = this.boards[i].indexOf(column)
+      if (col >= 0) {
+        return {
+          row: i,
+          col
+        }
+      }
+    }
+  }
+  #possiblityBotWin() {
+    this.#splitBoard()
+    this.#chooseByDuplicated = !this.#chooseByDuplicated
     this.#historyPattern = this.#sufflePath(this.#historyPattern)
-    this.splitBoard()
-    console.log(this.diagonal)
-    console.log(this.vertical)
-    console.log(this.horizontal)
-    const moves = this.playerMoved()
-    // console.log(moves)
+    const dangerPlayerMove = this.#playerMoved()
+
+    const schema = []
+    if (dangerPlayerMove) {
+      const forceMove = this[dangerPlayerMove.type][dangerPlayerMove.row][dangerPlayerMove.col]
+      return this.#resultBoard(forceMove)
+    }
+
+    for (let i = 0; i < this.#historyPattern.length; i++) {
+      for (let j = 0; j < this[this.#historyPattern[i]].length; j++) {
+        const field = [...this[this.#historyPattern[i]][j]].filter(n => n !== 'x' && n !== 'o')
+        if (field.length) {
+          for (let k = 0; k < field.length; k++) {
+            schema.push(field[k])
+          }
+        }
+      }
+    }
+
+    let column
+    console.log(schema, 'TAI')
+    const uniques = this.#sufflePath([...schema])
+    column = uniques[0]
+
+    return this.#resultBoard(column)
+  }
+  move() {
+    const num = this.#possiblityBotWin()
+    return num
   }
 }

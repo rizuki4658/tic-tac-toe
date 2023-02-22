@@ -1,28 +1,3 @@
-let boards = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9]
-]
-const boardView = document.getElementById('board')
-const scoreOne = document.getElementById('score_one')
-const scoreTwo = document.getElementById('score_two')
-const btnNewGame = document.getElementById('new_game')
-const btnResetGame = document.getElementById('reset_game')
-  
-const buttons = document.createElement('button')
-const scores = {
-  x: 0,
-  o: 0
-}
-const steps = {
-  x: 0,
-  o: 0
-}
-let turn = 0
-let winner = null
-let timerClear = undefined
-let myBOT = undefined
-
 function boardClick(e) {
   const target = e.target.id.split('')
   const img = document.createElement('img')
@@ -30,8 +5,6 @@ function boardClick(e) {
   e.target.appendChild(img)
   boards[target[0]][target[1]] = turn === 0 ? 'x' : 'o'
   steps[turn === 0 ? 'x' : 'o'] += 1
-
-  myBOT.possiblityBotWin()
 
   if (steps.x === 5 || steps.y === 5) {
     resetBoard()
@@ -44,6 +17,10 @@ function boardClick(e) {
     scores[winner.toLocaleLowerCase()] += 1
     updateScore()
     winnerModal()
+  } else if (withBot && turn === 1) {
+    timerBOT = setTimeout(() => {
+      moveBOT()
+    }, 2000)
   }
 }
 
@@ -112,7 +89,9 @@ function diagonalCheck(type) {
 }
 
 function createBoard(boards) {
-  myBOT = new Bot({boards})
+  if (withBot) {
+    myBOT = new Bot({boards})
+  }
   scoreTwo.innerText = scores.o
   for (let r = 0; r < boards.length; r++) {
     const row = document.createElement('tr')
@@ -197,6 +176,14 @@ function updateScore() {
     scoreOne.classList.remove('lead')
     scoreTwo.classList.remove('lead')
   }
+}
+
+function moveBOT() {
+  const myBOT = new Bot({ boards })
+  const move = myBOT.move()
+  if (!move) return
+  const el = document.getElementById(`${move.row}${move.col}`)
+  el.click()
 }
 
 function load () {
