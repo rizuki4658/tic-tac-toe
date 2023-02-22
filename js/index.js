@@ -109,6 +109,8 @@ function diagonalCheck(type) {
 }
 
 function createBoard(boards) {
+  const myBOT = new Bot({boards})
+  console.log(myBOT)
   scoreOne.innerText = scores.x
   scoreTwo.innerText = scores.o
   for (let r = 0; r < boards.length; r++) {
