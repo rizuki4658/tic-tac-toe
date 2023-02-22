@@ -22,5 +22,5 @@ let turn = 0
 let winner = null
 let timerClear = undefined
 // let myBOT = undefined
-let withBot = true
+let withBot = false
 let timerBOT = undefined

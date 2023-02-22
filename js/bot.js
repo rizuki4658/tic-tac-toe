@@ -115,21 +115,21 @@ class Bot {
       return this.#resultBoard(forceMove)
     }
 
-    for (let i = 0; i < this.#historyPattern.length; i++) {
-      for (let j = 0; j < this[this.#historyPattern[i]].length; j++) {
-        const field = [...this[this.#historyPattern[i]][j]].filter(n => n !== 'x' && n !== 'o')
-        if (field.length) {
-          for (let k = 0; k < field.length; k++) {
-            schema.push(field[k])
-          }
-        }
-      }
-    }
+    // for (let i = 0; i < this.#historyPattern.length; i++) {
+    //   for (let j = 0; j < this[this.#historyPattern[i]].length; j++) {
+    //     const field = [...this[this.#historyPattern[i]][j]].filter(n => n !== 'x' && n !== 'o')
+    //     if (field.length) {
+    //       for (let k = 0; k < field.length; k++) {
+    //         schema.push(field[k])
+    //       }
+    //     }
+    //   }
+    // }
 
-    let column
-    console.log(schema, 'TAI')
-    const uniques = this.#sufflePath([...schema])
-    column = uniques[0]
+    // let column
+    // console.log(schema, 'TAI')
+    // const uniques = this.#sufflePath([...schema])
+    // column = uniques[0]
 
     return this.#resultBoard(column)
   }
