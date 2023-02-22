@@ -21,6 +21,7 @@ const steps = {
 let turn = 0
 let winner = null
 let timerClear = undefined
+let myBOT = undefined
 
 function boardClick(e) {
   const target = e.target.id.split('')
@@ -29,6 +30,8 @@ function boardClick(e) {
   e.target.appendChild(img)
   boards[target[0]][target[1]] = turn === 0 ? 'x' : 'o'
   steps[turn === 0 ? 'x' : 'o'] += 1
+
+  myBOT.possiblityBotWin()
 
   if (steps.x === 5 || steps.y === 5) {
     resetBoard()
@@ -109,9 +112,7 @@ function diagonalCheck(type) {
 }
 
 function createBoard(boards) {
-  const myBOT = new Bot({boards})
-  console.log(myBOT)
-  scoreOne.innerText = scores.x
+  myBOT = new Bot({boards})
   scoreTwo.innerText = scores.o
   for (let r = 0; r < boards.length; r++) {
     const row = document.createElement('tr')
