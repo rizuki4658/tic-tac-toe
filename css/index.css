@@ -121,23 +121,35 @@ h3 {
 }
 
 .board-reset-new-game {
-  gap: 1rem;
+  background-color: #fff;
+  position: fixed;
+  z-index: 10;
+  bottom: 1rem;
   display: flex;
-  margin-bottom: 2rem;
   justify-content: center;
   align-items: center;
   gap: .5rem;
+  padding: .5rem 1rem;
+  border-radius: 50px;
+  opacity: .5;
+  transition: all .3s ease-in-out;
   /* justify-content: space-between; */
+}
+.board-reset-new-game:hover {
+  opacity: 1;
 }
 
 .button-new-game,
 .button-reset {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
   font-size: 48px;
   background-color: transparent;
   border: none;
-  color: white;
+  color: black;
   cursor: pointer;
-  opacity: .5;
+  opacity: .3;
   transition: all .3s ease-in-out;
 }
 .button-new-game:hover {
