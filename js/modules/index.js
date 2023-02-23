@@ -1,8 +1,10 @@
+import { drawModal, updateScore, winnerModal, resetBoard }from '../utils/helper.js'
 import { config } from '../constants/index.js'
 import Board from '../utils/board.js'
 import Bot from '../utils/bot.js'
+
 const dimension = 3
-const myConfig = config
+let myConfig = config
 
 function boardClick(e) {
   if (e.target.children.length || myConfig.winner) return
@@ -17,9 +19,19 @@ function boardClick(e) {
   myConfig.turn = myConfig.turn === 'x' ? 'o' : 'x'
 
   if (myConfig.winner && myConfig.winner !== 'draw') {
-    return
+    myConfig.scores[myConfig.winner.toLocaleLowerCase()] += 1
+    updateScore(myConfig.scores, myConfig.winner)
+    winnerModal(myConfig.winner)
+    myConfig = resetBoard(myConfig)
+    myConfig.boards = new Board(dimension)
+  } else if (myConfig.winner === 'draw') {
+    drawModal()
+    myConfig = resetBoard(myConfig)
+    myConfig.boards = new Board(dimension)
   } else if (myConfig.withBot && myConfig.turn === 'o') {
-    moveBOT(maximizing)
+    myConfig.timerBOT = setTimeout(() => {
+      moveBOT(maximizing)
+    }, 500)
   }
 }
 
@@ -39,14 +51,9 @@ function moveBOT(maximizing) {
     }
     el.click()
     myConfig.boards.insert(symbol, parseInt(best))
-    // addClass(htmlCells[best], symbol);
-    // if(board.isTerminal()) {
-    //     drawWinningLine(board.isTerminal());
-    // }
-    // playerTurn = 1; //Switch turns
     myConfig.turn = 'x'
-    clearTimeout(myConfig.timerBOT)
   })
+  clearTimeout(myConfig.timerBOT)
 }
 
 function renderBoard() {
