@@ -156,7 +156,20 @@ class Bot {
     this.#historyPattern = this.#sufflePath(this.#historyPattern)
 
     let column = this.#generateColumn(schema)
+    const playerMoved = this.playerMoved()
+    if (Number(playerMoved)) {
+      column = playerMoved
+    } else {
+      return this.#resultBoard(this.correctMove())
+    }
 
     return this.#resultBoard(column)
+  }
+  correctMove() {
+    for (let i = 0; i < this.boards.length; i++) {
+      for (let j = 0; j < this.boards[i].length; j++) {
+        if (Number(this.boards[i][j])) return this.boards[i][j]
+      }
+    }
   }
 }

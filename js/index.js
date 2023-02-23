@@ -183,11 +183,6 @@ function moveBOT() {
   const moves = myBOT.findAvailableMoves()
   const schema = myBOT.schema(moves)
   let goTo = myBOT.move(schema)
-  const playerMoved = myBOT.playerMoved()
-
-  if (playerMoved) {
-    goTo = myBOT.forceMove(playerMoved)
-  }
 
   if (!goTo) return
   const el = document.getElementById(`${goTo.row}${goTo.col}`)
