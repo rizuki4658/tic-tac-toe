@@ -17,10 +17,10 @@ function boardClick(e) {
     scores[winner.toLocaleLowerCase()] += 1
     updateScore()
     winnerModal()
-  } else if (withBot && turn === 1) {
+  } else if (!winner && withBot && turn === 1) {
     timerBOT = setTimeout(() => {
       moveBOT()
-    }, 2000)
+    }, 1000)
   }
 }
 
@@ -180,9 +180,17 @@ function updateScore() {
 
 function moveBOT() {
   const myBOT = new Bot({ boards })
-  const move = myBOT.move()
-  if (!move) return
-  const el = document.getElementById(`${move.row}${move.col}`)
+  const moves = myBOT.findAvailableMoves()
+  const schema = myBOT.schema(moves)
+  let goTo = myBOT.move(schema)
+  const playerMoved = myBOT.playerMoved()
+
+  if (playerMoved) {
+    goTo = myBOT.forceMove(playerMoved)
+  }
+
+  if (!goTo) return
+  const el = document.getElementById(`${goTo.row}${goTo.col}`)
   el.click()
 }
 
